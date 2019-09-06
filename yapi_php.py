@@ -293,6 +293,7 @@ def init_args():
     global except_file
     global controller_dir
     global except_dirs
+    global yapi_host
 
     print("""
     格式要求：
