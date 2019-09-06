@@ -37,4 +37,10 @@ except_dirs=
 ```
 
 
-##### 具体实现功能
+##### 生成exe
+```
+http://www.pyinstaller.org/
+pip install pyinstaller
+
+pyinstaller -F xxx.py
+```
