@@ -11,6 +11,7 @@ doc_path = "./Yapi"
 
 index = []
 # 基础设置
+yapi_host = ""
 token = ""
 project_id = 0
 
@@ -33,7 +34,7 @@ def get_all_cat():
     获取所有的分类
     :return:
     """
-    cat_list_resp = json.loads(requests.request("GET", "http://api.ouxuan.net/api/interface/getCatMenu",
+    cat_list_resp = json.loads(requests.request("GET", yapi_host + "/api/interface/getCatMenu",
                                                 params={'token': token, 'project_id': project_id}).content.decode(
         "utf-8"))
     if cat_list_resp['errcode'] == 0:
@@ -347,6 +348,7 @@ def init_args():
                     print("目标文件不存在")
                     sys.exit()
                 project_id = cf.get("Yapi", "project_id")
+                yapi_host = cf.get("Yapi", "yapi_host")
                 token = cf.get("Yapi", "token")
                 except_file = str(cf.get("Yapi", "except")).split("|")
                 controller_dir = cf.get("Yapi", "controller")
@@ -360,6 +362,10 @@ def init_args():
                 sys.exit()
 
     if not opts:
+        yapi_host = input("请输入yapi的基础地址[例:http://yapi.com]：")
+        while not yapi_host:
+            yapi_host = input("请输入yapi的基础地址[例:http://yapi.com]：")
+
         token = input("请输入项目对应的token值：")
         while not token:
             token = input("请输入项目对应的token值【不可为空】：")
@@ -374,6 +380,7 @@ def init_args():
 
         cf = configparser.ConfigParser()
         cf.add_section("Yapi")
+        cf.set("Yapi", "yapi_host", yapi_host)
         cf.set("Yapi", "project_id", project_id)
         cf.set("Yapi", "token", token)
         cf.set("Yapi", "except", except_file)
