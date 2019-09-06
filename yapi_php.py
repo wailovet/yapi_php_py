@@ -339,6 +339,7 @@ def init_args():
                 except=
                 controller=
                 except_dirs=
+                yapi_host=
             """)
             sys.exit()
         elif opt in ("-f", "--file"):
