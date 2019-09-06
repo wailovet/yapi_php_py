@@ -51,7 +51,7 @@ def get_all_api_by_cat_id(cat_id):
     """
     if not cat_api_dict.__contains__(cat_id):
         global path_dict_all
-        api_list_resp = requests.request("GET", "http://api.ouxuan.net/api/interface/list_cat",
+        api_list_resp = requests.request("GET", yapi_host + "/api/interface/list_cat",
                                          params={'token': token, 'catid': cat_id, 'page': 1,
                                                  "limit": 1000}).content.decode(
             "utf-8")
@@ -68,7 +68,7 @@ def get_detail_api_by_id(id):
     :param id:
     :return:
     """
-    api_resp = requests.request("GET", "http://api.ouxuan.net/api/interface/get",
+    api_resp = requests.request("GET", yapi_host + "/api/interface/get",
                                 params={'token': token, 'id': id}).content.decode(
         "utf-8")
 
@@ -84,7 +84,7 @@ def add_cat(cat_name):
     """
     post_json = {'name': cat_name, 'up_time': time.time(), 'token': token, 'project_id': project_id}
     resp_cat = json.loads(
-        requests.request("post", "http://api.ouxuan.net/api/interface/add_cat", json=post_json).content.decode(
+        requests.request("post", yapi_host + "/api/interface/add_cat", json=post_json).content.decode(
             "utf-8"))
 
     if resp_cat['errcode'] == 0:
@@ -124,7 +124,7 @@ def up_date_or_save(save):
         ori = cat_api_dict[save["catid"]][save["path"]]
         ori.update(save)
         save = ori
-    resp = requests.request("post", "http://api.ouxuan.net/api/interface/save", json=save)
+    resp = requests.request("post", yapi_host + "/api/interface/save", json=save)
     print("响应结果:",
           json.dumps(json.loads(resp.content.decode("utf-8"))["errmsg"], indent=2, ensure_ascii=False) + "\r\n",
           "保存接口:",
